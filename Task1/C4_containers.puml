@@ -1,0 +1,42 @@
+@startuml C4_Container_Diagram
+!include <C4/C4_Container>
+
+title Целевая архитектура компании "Будущее 2.0" через год
+
+Person(businessUser, "Бизнес-пользователь", "Формирует аналитические отчёты и дашборды")
+Person(analyst, "Аналитик", "Настройка витрины и подготовка данных")
+System_Boundary(dataPlatform, "Платформа данных"){
+
+  Container(portal, "Портал самообслуживания", "React + BI-инструменты", "Конструктор отчётов и витрин данных для конечных пользователей")
+
+  Container_Boundary(dataLakehouse, "Data Lakehouse (облако)"){
+    Container(objectStorage, "Объектное хранилище данных (MinIO)", "S3-совместимое хранилище", "Хранение структурированных и неструктурированных данных")
+    Container(iceberg, "Apache Iceberg", "Фреймворк управления метаданными", "Метаданные, транзакции, партиционирование данных")
+    Container(dataCatalog, "Data Catalog (DataHub)", "Каталогизация метаданных", "Каталог метаданных, lineage, управление доступом")
+  }
+
+  Container(dataPipeline, "Data Pipeline (Airflow)", "Python", "Оркестрация ETL/ELT-процессов и интеграций")
+
+  Container(domainFinance, "Финансовый домен", "Java/Golang", "Управляет финансовыми и банковскими данными")
+  Container(domainAI, "ИИ-сервисы", "Python", "Обработка медицинских данных через ML и AI")
+  Container(domainClinic, "Медицинский домен", "Миграция с SQL Server на PostgreSQL", "Хранение и обработка медицинских данных без аналитики")
+  Container(domainManagement, "Головной офис", "Java", "Инвентаризация, персонал, общая аналитика")
+
+  Rel(portal, iceberg, "Читает данные и метаданные", "SQL")
+  Rel(portal, dataCatalog, "Получает информацию о метаданных", "REST API")
+  Rel(analyst, portal, "Настраивает и публикует отчёты")
+  Rel(businessUser, portal, "Формирует отчёты и аналитику")
+
+  Rel(dataPipeline, domainFinance, "Извлекает данные")
+  Rel(dataPipeline, domainAI, "Извлекает результаты обработки")
+  Rel(dataPipeline, domainClinic, "Извлекает данные")
+  Rel(dataPipeline, domainManagement, "Извлекает данные")
+
+  Rel(dataPipeline, objectStorage, "Загружает данные", "S3 API")
+  Rel(dataPipeline, iceberg, "Регистрирует метаданные", "Iceberg API")
+
+  Rel(iceberg, objectStorage, "Управляет файлами данных", "S3 API")
+  Rel(dataCatalog, iceberg, "Собирает метаданные", "Iceberg API")
+}
+
+@enduml

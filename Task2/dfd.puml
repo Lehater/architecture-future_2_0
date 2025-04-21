@@ -1,0 +1,30 @@
+@startuml Data_Flow_Diagram
+
+title Потоки данных между доменами (Data Flow Diagram)
+
+rectangle "Finance Domain" as Finance
+rectangle "Medical Domain" as Medical
+rectangle "AI Domain" as AI
+rectangle "Management Domain" as Management
+rectangle "Analytics Domain (Self-Service Portal)" as Analytics
+
+cloud "External Sources" as External
+
+database "Data Lakehouse\n(MinIO + Iceberg)" as Lakehouse
+node "Data Pipeline\n(Airflow)" as Pipeline
+
+External --> Finance : данные банков,\nпартнёров
+External --> Medical : данные из клиник,\nоборудования
+External --> Management : внешние отчёты,\nHR-системы
+External --> AI : данные исследований,\nданные ML
+
+Finance --> Pipeline : финансовые данные,\nтранзакции
+Medical --> Pipeline : медкарты,\nистории болезни
+Management --> Pipeline : управленческие\nи кадровые данные
+AI --> Pipeline : результаты анализа\nмедицинских данных
+
+Pipeline --> Lakehouse : запись данных,\nобновление метаданных
+
+Lakehouse --> Analytics : чтение данных,\nметаданные
+
+@enduml
