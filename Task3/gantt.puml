@@ -1,0 +1,26 @@
+@startgantt
+projectscale quarterly zoom 8
+Project starts 2025-05-01
+title Технический роадмап компании "Будущее 2.0"
+
+--- section Q2 2025 ---
+[Изучение и выбор хранилища (MinIO)] requires 15 days and starts 2025-05-01
+[Пилот Data Lakehouse (Iceberg)] requires 30 days and starts 2025-05-16
+[Создание MVP портала самообслуживания] requires 45 days and starts 2025-05-16
+
+-- section Q3 2025 --
+[Внедрение Data Lakehouse в прод] requires 60 days and starts 2025-07-01
+[Запуск доменных команд Data Mesh] requires 30 days and starts 2025-07-15
+[Миграция медицинского домена на PostgreSQL] requires 45 days and starts 2025-08-01
+
+-- section Q4 2025 --
+[Развёртывание DataHub] requires 30 days and starts 2025-10-01
+[Миграция финансовых данных в Data Lakehouse] requires 45 days and starts 2025-10-15
+[Переход на портал самообслуживания] requires 45 days and starts 2025-11-01
+
+--- section Q1 2026---
+[Завершение миграции и вывод SQL Server] requires 45 days and starts 2026-01-10
+[Оптимизация производительности ETL-процессов] requires 30 days and starts 2026-02-01
+[Полная эксплуатация новой архитектуры] requires 30 days and starts 2026-02-20
+
+@endgantt
